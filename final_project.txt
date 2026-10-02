@@ -1,0 +1,47 @@
+import tensorflow as tf
+print("TensorFlow version:", tf.__version__)test_generator = test_datagen.flow_from_directory(
+    test_dir,
+    target_size=(224, 224),
+    batch_size=32,
+    class_mode='categorical',
+    shuffle=False
+)
+print("Length of train_generator:", len(train_generator))
+model.summary()
+model.compile(optimizer='adam', loss='categorical_crossentropy', metrics=['accuracy'])
+import matplotlib.pyplot as plt
+
+plt.plot(history_extract_feat.history['accuracy'], label='Train Accuracy')
+plt.plot(history_extract_feat.history['val_accuracy'], label='Validation Accuracy')
+plt.title('Extract Feature Model - Accuracy')
+plt.legend()
+plt.show()
+plt.plot(history_fine_tune.history['loss'], label='Train Loss')
+plt.plot(history_fine_tune.history['val_loss'], label='Validation Loss')
+plt.title('Fine-Tuned Model - Loss')
+plt.legend()
+plt.show()
+plt.plot(history_fine_tune.history['accuracy'], label='Train Accuracy')
+plt.plot(history_fine_tune.history['val_accuracy'], label='Validation Accuracy')
+plt.title('Fine-Tuned Model - Accuracy')
+plt.legend()
+plt.show()
+import numpy as np
+
+index_to_plot = 1
+images, labels = next(iter(test_generator))
+
+plt.imshow(images[index_to_plot])
+plt.axis('off')
+
+pred = extract_feat_model.predict(np.expand_dims(images[index_to_plot], axis=0))
+plt.title(f"Predicted Class: {np.argmax(pred)}")
+plt.show()
+index_to_plot = 1
+plt.imshow(images[index_to_plot])
+plt.axis('off')
+
+pred_ft = fine_tune_model.predict(np.expand_dims(images[index_to_plot], axis=0))
+plt.title(f"Fine-Tuned Predicted Class: {np.argmax(pred_ft)}")
+plt.show()
+
